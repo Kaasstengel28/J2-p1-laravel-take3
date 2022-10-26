@@ -17,14 +17,17 @@
                         {{ __('Welcome!') }}
 
                         <div>
-                            <a href="{{ route('storefront') }}">Products</a>
+                            <a href="{{ url('/storefront') }}">Products</a>
                         </div>
-                        <div>
-                            <a href="{{ url('/users') }}">Users - admin</a>
-                        </div>
-                            <div>
-                                <a href="{{ url('/products') }}">Products - admin</a>
-                            </div>
+
+                            @if(auth()->user()->isAdmin())
+                                <div>
+                                    <a href="{{ url('/users') }}">Users - admin</a>
+                                </div>
+                                <div>
+                                    <a href="{{ url('/products') }}">Products - admin</a>
+                                </div>
+                                @endif
                     </div>
                 </div>
             </div>

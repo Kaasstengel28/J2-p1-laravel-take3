@@ -20,7 +20,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'show'])->name('home');
 Auth::routes();
 
+Route::get('users', 'App\Http\Controllers\UserController@index')->name('users.index');
+
 Route::resource('products', App\Http\Controllers\EditorController::class);
-Route::get('/storefront', [App\Http\Controllers\EditorController::class, 'show'])->name('storefront');
+Route::resource('storefront', App\Http\Controllers\StoreController::class)->names('products');
 
 
