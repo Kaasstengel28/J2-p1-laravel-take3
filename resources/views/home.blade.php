@@ -27,6 +27,9 @@
                                 <div>
                                     <a href="{{ url('/products') }}">Products - admin</a>
                                 </div>
+                                <div>
+                                    <a href="{{ url('/tags') }}">tegs</a>
+                                </div>
                                 @endif
                     </div>
                 </div>

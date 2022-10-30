@@ -1,68 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Company Form - Laravel 9 CRUD Tutorial</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-
-<body>
-<div class="container mt-2">
+@section('content')
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2>Edit Company</h2>
+                <h2>Edit Product</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('products.index') }}" enctype="multipart/form-data">
-                    Back</a>
+                <a class="btn btn-primary" href="{{ route('products.index') }}"> Back</a>
             </div>
         </div>
     </div>
-    @if(session('status'))
-        <div class="alert alert-success mb-1 mt-1">
-            {{ session('status') }}
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <strong>Whoops!</strong> There were some problems with your input.<br><br>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
     @endif
-    <form action="{{ route('products.update',$product->id) }}" method="POST" enctype="multipart/form-data">
+
+    <form action="{{ route('products.update',$product->id) }}" method="POST">
         @csrf
         @method('PUT')
+
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Product title:</strong>
-                    <input type="text" name="title" value="{{ $product->title }}" class="form-control"
-                           placeholder="title">
-                    @error('title')
-                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                    @enderror
+                    <strong>Title:</strong>
+                    <input type="text" name="title" value="{{ $product->title }}" class="form-control" placeholder="Title">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Product description:</strong>
-                    <input type="text" name="description" class="form-control" placeholder="description"
-                           value="{{ $product->description }}">
-                    @error('price')
-                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                    @enderror
+                    <strong>Detail:</strong>
+                    <input type="text" name="description" value="{{ $product->description }}" class="form-control" placeholder="Description">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Product price:</strong>
-                    <input type="number" name="price" value="{{ $product->price }}" class="form-control"
-                           placeholder="Company Address">
-                    @error('description')
-                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                    @enderror
+                    <strong>Price:</strong>
+                    <textarea class="form-control" style="height:150px" name="price" placeholder="Price">{{ $product->price }}</textarea>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary ml-3">Submit</button>
+            <div class="col-xs-12 col-sm-12 col-md-12 text-center">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
         </div>
-    </form>
-</div>
-</body>
 
-</html>
+    </form>
+@endsection

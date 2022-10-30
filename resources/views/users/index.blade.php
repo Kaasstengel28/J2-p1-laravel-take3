@@ -21,6 +21,9 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->role }}</td>
+                            @if(!$user->isAdmin())
+                                <td><button class="btn btn-success btn-sm">make admin</button></td>
+                            @endif
                         </tr>
                     @endforeach
                     </tbody>

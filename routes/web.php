@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EditorController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -19,9 +20,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'show'])->name('home');
 Auth::routes();
 
-Route::get('users', 'App\Http\Controllers\UserController@index')->name('users.index');
-
-Route::resource('products', App\Http\Controllers\EditorController::class);
 Route::resource('storefront', App\Http\Controllers\StoreController::class)->names('products');
+Route::resource('tags', App\Http\Controllers\TagsController::class);
 
-
+Route::middleware(['auth', 'admin'])->group(function() {
+    Route::resource('products', App\Http\Controllers\EditorController::class);
+    Route::get('users', 'App\Http\Controllers\UserController@index')->name('users.index');
+});
