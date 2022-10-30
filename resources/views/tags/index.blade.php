@@ -1,80 +1,48 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="d-flex justify-content-end mb-2">
-        <a href="{{ route('tags.create') }}" class="btn btn-success">add tag</a>
-    </div>
-
-    <div class="card card-default">
-        <div class="card-header">tags0</div>
-        <table class="card-body">
-            @if($tags->count() > 0)
-                <table class="table">
-                    <thead>
-                    <th>Name</th>
-                    <th>posts count</th>
-                    <th></th>
-                    </thead>
-                </table>
-
-                <tbody>
-                @foreach($tags as $tag)
-                    <tr>
-                        <td>
-                            {{ $tag->name }}
-                        </td>
-                        <td>
-                            0
-                        </td>
-                        <td>
-                        <a href="{{ route('tags.edit', $tags->id) }}" class="btn btn-info btn-sm">
-                            Edit
-                        </a>
-                        <button class="btn btn-danger btn-sm" onclick="handleDelete({{ $tag->id }})">delete</button>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-        </table>
-
-        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <form action="" method="POST" id="deletetagForm">
-                    @csrf
-                    @method('DELETE')
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="deleteModalLabel">delete tag</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p class="text-center text-bold">
-                                weet je zeker?
-                            </p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">no goback</button>
-                            <button type="button" class="btn btn-danger">yes, dlet</button>
-                    </div>
-                    </div>
-                </form>
+    <div class="row">
+        <div class="col-lg-12 margin-tb">
+            <div class="pull-left">
+                <h2>Laravel 8 CRUD Example from scratch - ItSolutionStuff.com</h2>
+            </div>
+            <div class="pull-right">
+                <a class="btn btn-success" href="{{ route('tags.create') }}"> Create New Tag</a>
             </div>
         </div>
-    @else
-        <h3 class="text-center">no tags yet</h3>
-        @endif
     </div>
-@endsection
 
-@section('scripts')
-    <script>
-        function handleDelete(id)
-        {
-            var form = document.getElementById('deletetagForm')
-            form.action = '/tags/' + id
-            $('#deleteModal').modal('show')
-        }
-    </script>
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
+
+    <table class="table table-bordered">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+        @foreach ($tags as $tag)
+            <tr>
+                <td>{{ ++$i }}</td>
+                <td>{{ $tag->name }}</td>
+                <td>
+                    <form action="{{ route('tags.destroy',$tag->id) }}" method="POST">
+
+                        <a class="btn btn-primary" href="{{ route('tags.edit',$tag->id) }}">Edit</a>
+
+                        @csrf
+                        @method('DELETE')
+
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        @endforeach
+    </table>
+
+    {!! $tags->links() !!}
+
 @endsection

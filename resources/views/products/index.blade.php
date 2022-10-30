@@ -20,15 +20,15 @@
 
     <table class="table table-bordered">
         <tr>
-            <th>No</th>
-            <th>Name</th>
-            <th>Details</th>
-            <th width="280px">Action</th>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th width="280px">Price</th>
+            <th>Actions</th>
         </tr>
         @foreach ($products as $product)
             <tr>
                 <td>{{ ++$i }}</td>
-                <td>{{ $product->id }}</td>
                 <td>{{ $product->title }}</td>
                 <td>{{ $product->description }}</td>
                 <td>{{ $product->price }}</td>

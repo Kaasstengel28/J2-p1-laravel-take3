@@ -2,109 +2,105 @@
 
 namespace App\Http\Controllers;
 
-use App\models\Tag;
-use App\Http\Requests\Tags\CreateTagsRequest;
-use App\Http\Requests\Tags\UpdateTagsRequest;
+use App\Models\Tag;
+use Illuminate\Http\Request;
 
 class TagsController extends Controller
-
 {
-
     /**
-    * Display a listing of the resource.
-    *
-    * @return \Illuminate\Http\Response
-    */
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
 
     public function index()
     {
-       return view('tags.index')->with('tags', Tag::all());
+        $tags = Tag::latest()->paginate(5);
+
+        return view('tags.index',compact('tags'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
-    * show the form for creating a new resource
-    *
-    * @return \Illuminate\Http\Response
-    */
-
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
         return view('tags.create');
     }
 
     /**
-    * Store a newly created resource in storage.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @return \Illuminate\Http\Response
-    */
-
-    public function store(CreateTagsRequest $request)
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
     {
-        Tag::create([
-            'name' => $request->name
+        $request->validate([
+            'name' => 'required',
         ]);
 
-        session()->flash('succes', 'Tag created succesfully.');
+        Tag::create($request->all());
 
-        return redirect(route('tags.index'));
+        return redirect()->route('tags.index')
+                        ->with('success','Tag created successfully.');
     }
 
     /**
-    * Display the specified resource.
-    *
-    * @param  int $id
-    */
-
-    public function show($id)
+     * Display the specified resource.
+     *
+     * @param  \App\Tag  $tag
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Tag $tag)
     {
-        //
+        return view('tags.show',compact('tag'));
     }
 
     /**
-    * Show the form for editing the specified resource.
-    *
-    * @return \Illuminate\Http\Response
-    * @param int $id
-    */
-
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Tag  $tag
+     * @return \Illuminate\Http\Response
+     */
     public function edit(Tag $tag)
     {
-        return view('tags.create')->with('tag', $tag);
+        return view('tags.edit',compact('tag'));
     }
 
     /**
-    * Update the specified resource in storage.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @param  \App\company  $company
-    * @return \Illuminate\Http\Response
-    */
-
-    public function update(UpdateTagsRequest $request, Tag $tag)
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Tag  $tag
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Tag $tag)
     {
-        $tag->update([
-            'name' => $request->name
+        $request->validate([
+            'name' => 'required',
         ]);
 
-        session()->flash('succes', 'tag updated');
+        $tag->update($request->all());
 
-        return redirect(route('tags.index'));
+        return redirect()->route('tags.index')
+                        ->with('success','Tag updated successfully');
     }
 
     /**
-    * Remove the specified resource from storage.
-    *
-    * @param  \App\Company  $company
-    * @return \Illuminate\Http\Response
-    */
-
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Tag  $tag
+     * @return \Illuminate\Http\Response
+     */
     public function destroy(Tag $tag)
     {
         $tag->delete();
 
-        session()->flash('succes', 'Welloe tag');
-
-        return redirect(route('tags.index'));
+        return redirect()->route('tags.index')
+                        ->with('success','Tag deleted successfully');
     }
 }

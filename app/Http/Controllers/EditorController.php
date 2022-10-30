@@ -83,8 +83,9 @@ class EditorController extends Controller
     public function update(Request $request, Product $product)
     {
         $request->validate([
-            'name' => 'required',
-            'detail' => 'required',
+            'title' => 'required',
+            'description' => 'required',
+            'price' => 'required'
         ]);
 
         $product->update($request->all());
