@@ -12,4 +12,9 @@ class Product extends Model
     protected $fillable = [
         'title', 'description', 'price'
     ];
+
+        public function isShown()
+        {
+            return $this->status === 'isShown';
+        }
 }

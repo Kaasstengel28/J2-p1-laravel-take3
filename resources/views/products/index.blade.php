@@ -27,7 +27,7 @@
             <th>Actions</th>
         </tr>
         @foreach ($products as $product)
-            <tr>
+                <tr>
                 <td>{{ ++$i }}</td>
                 <td>{{ $product->title }}</td>
                 <td>{{ $product->description }}</td>
@@ -39,6 +39,13 @@
 
                         <a class="btn btn-primary" href="{{ route('products.edit',$product->id) }}">Edit</a>
 
+                        <form action="{{ route('products.toggle-visibility', $product->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+
+                            <button type="submit" class="btn btn-success btn-sm">make</button>
+                        </form>
+
                         @csrf
                         @method('DELETE')
 
@@ -46,6 +53,7 @@
                     </form>
                 </td>
             </tr>
+
         @endforeach
     </table>
 

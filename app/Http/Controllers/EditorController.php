@@ -107,4 +107,13 @@ class EditorController extends Controller
         return redirect()->route('products.index')
                         ->with('success','Product deleted successfully');
     }
+
+        public function toggleVisibility(Product $product)
+        {
+            $product->status = 'hidden';
+
+            $product->save();
+
+                return redirect(route('products.index'));
+        }
 }

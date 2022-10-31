@@ -22,7 +22,13 @@
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->role }}</td>
                             @if(!$user->isAdmin())
-                                <td><button class="btn btn-success btn-sm">make admin</button></td>
+                            <td>
+                                <form action="{{ route('users.make-admin', $user->id) }}" method="POST">
+                                    @csrf
+
+                                    <button type="submit" class="btn btn-success btn-sm">make admin</button>
+                                </form>
+                            </td>
                             @endif
                         </tr>
                     @endforeach

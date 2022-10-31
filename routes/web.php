@@ -26,4 +26,7 @@ Route::resource('tags', App\Http\Controllers\TagsController::class);
 Route::middleware(['auth', 'admin'])->group(function() {
     Route::resource('products', App\Http\Controllers\EditorController::class);
     Route::get('users', 'App\Http\Controllers\UserController@index')->name('users.index');
+
+    Route::post('users/{user}/make-admin', 'App\Http\Controllers\UserController@makeAdmin')->name('users.make-admin');
+    Route::post('products/{product}/toggle-visibility', 'App\Http\Controllers\EditorController@toggleVisibility')->name('products.toggle-visibility');
 });

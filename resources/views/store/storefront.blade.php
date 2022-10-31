@@ -30,6 +30,7 @@
                 </div>
                 <h2>List of Products</h2>
                 @foreach($products as $product)
+                    @if(!$product->isShown())
                     <div class="card">
                         <div class="card-header"><h1>{{$product->title}}</h1>
                         </div>
@@ -39,6 +40,7 @@
                         </div>
                     </div>
                     <br>
+                    @endif
                 @endforeach
             </div>
         </div>
